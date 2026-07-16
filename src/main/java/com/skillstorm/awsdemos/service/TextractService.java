@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+/** Runs an uploaded image/PDF through Textract and returns the lines of text it detected. */
 @Service
 public class TextractService {
 
@@ -27,6 +28,11 @@ public class TextractService {
         this.s3StorageService = s3StorageService;
     }
 
+    /**
+     * Uploads the file to S3 (Textract's detectDocumentText reads its input from there), calls
+     * Textract, extracts the LINE blocks from the response, then deletes the scratch S3 object
+     * whether or not the call succeeded.
+     */
     public TextractResult extractText(MultipartFile file) {
         String key = "textract/" + UUID.randomUUID() + "-" + file.getOriginalFilename();
         try {

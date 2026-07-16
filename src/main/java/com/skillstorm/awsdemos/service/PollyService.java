@@ -10,6 +10,7 @@ import software.amazon.awssdk.services.polly.model.VoiceId;
 import java.io.IOException;
 import java.io.InputStream;
 
+/** Converts text into spoken-word MP3 audio via Polly. */
 @Service
 public class PollyService {
 
@@ -19,6 +20,7 @@ public class PollyService {
         this.pollyClient = pollyClient;
     }
 
+    /** Calls Polly's synthesizeSpeech (voice: Joanna, format: MP3) and reads the streamed response into memory. */
     public byte[] synthesize(String text) {
         if (text == null || text.isBlank()) {
             throw new AwsDemoException("Please provide some text to synthesize");

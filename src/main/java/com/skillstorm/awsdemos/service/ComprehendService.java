@@ -8,12 +8,15 @@ import software.amazon.awssdk.services.comprehend.model.DetectDominantLanguageRe
 import software.amazon.awssdk.services.comprehend.model.DetectEntitiesRequest;
 import software.amazon.awssdk.services.comprehend.model.DetectKeyPhrasesRequest;
 import software.amazon.awssdk.services.comprehend.model.DetectSentimentRequest;
+import software.amazon.awssdk.services.comprehend.model.DominantLanguage;
+import software.amazon.awssdk.services.comprehend.model.KeyPhrase;
 import software.amazon.awssdk.services.comprehend.model.SentimentScore;
 
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/** Runs a block of text through Comprehend's language, sentiment, entity, and key-phrase detection. */
 @Service
 public class ComprehendService {
 
@@ -25,6 +28,11 @@ public class ComprehendService {
         this.comprehendClient = comprehendClient;
     }
 
+    /**
+     * Validates the text is present and within Comprehend's 5,000-byte synchronous-API limit,
+     * detects the dominant language, then uses that language code to run sentiment, entity, and
+     * key-phrase detection, combining all four results into one object.
+     */
     public ComprehendResult analyzeText(String text) {
         if (text == null || text.isBlank()) {
             throw new AwsDemoException("Please provide some text to analyze");
@@ -38,7 +46,7 @@ public class ComprehendService {
                 .languages()
                 .stream()
                 .findFirst()
-                .map(l -> l.languageCode())
+                .map(DominantLanguage::languageCode)
                 .orElse("en");
 
         var sentimentResponse = comprehendClient.detectSentiment(
@@ -62,7 +70,7 @@ public class ComprehendService {
                 .detectKeyPhrases(DetectKeyPhrasesRequest.builder().text(text).languageCode(languageCode).build())
                 .keyPhrases()
                 .stream()
-                .map(kp -> kp.text())
+                .map(KeyPhrase::text)
                 .toList();
 
         return new ComprehendResult(

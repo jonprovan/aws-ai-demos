@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/** Handles the Comprehend demo page: accepts typed text or a .txt upload and runs the text-analysis request. */
 @Controller
 public class ComprehendController {
 
@@ -21,13 +22,15 @@ public class ComprehendController {
         this.comprehendService = comprehendService;
     }
 
+    /** Renders the empty text-entry form. */
     @GetMapping("/comprehend")
-    public String form() {
+    String form() {
         return "comprehend";
     }
 
+    /** Resolves whichever input was submitted (file wins over typed text), runs Comprehend, and shows the result. */
     @PostMapping("/comprehend")
-    public String analyze(
+    String analyze(
             @RequestParam(value = "text", required = false) String text,
             @RequestParam(value = "file", required = false) MultipartFile file,
             Model model) {
@@ -41,6 +44,7 @@ public class ComprehendController {
         return "comprehend";
     }
 
+    /** Prefers the uploaded .txt file's contents when present, otherwise falls back to the typed text field. */
     private String resolveText(String text, MultipartFile file) throws IOException {
         if (file != null && !file.isEmpty()) {
             return new String(file.getBytes(), StandardCharsets.UTF_8);

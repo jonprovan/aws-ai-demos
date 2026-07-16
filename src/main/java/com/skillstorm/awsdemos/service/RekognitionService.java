@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 
+/** Runs an uploaded image through Rekognition's label detection and text detection. */
 @Service
 public class RekognitionService {
 
@@ -23,6 +24,11 @@ public class RekognitionService {
         this.rekognitionClient = rekognitionClient;
     }
 
+    /**
+     * Reads the image bytes in memory (Rekognition accepts inline bytes up to 5MB, no S3 needed),
+     * then calls detectLabels (top 15, confidence >= 70) and detectText, keeping only whole-line
+     * text detections rather than individual words.
+     */
     public RekognitionResult analyzeImage(MultipartFile file) {
         Image image;
         try {

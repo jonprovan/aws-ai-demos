@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/** Handles the Polly demo page: takes typed text, synthesizes it, and serves the resulting audio back. */
 @Controller
 public class PollyController {
 
@@ -25,13 +26,15 @@ public class PollyController {
         this.audioCache = audioCache;
     }
 
+    /** Renders the empty text-entry form. */
     @GetMapping("/polly")
-    public String form() {
+    String form() {
         return "polly";
     }
 
+    /** Synthesizes the submitted text, stashes the audio in AudioCache, and passes its id to the page for playback. */
     @PostMapping("/polly")
-    public String synthesize(@RequestParam("text") String text, Model model) {
+    String synthesize(@RequestParam("text") String text, Model model) {
         try {
             byte[] audio = pollyService.synthesize(text);
             model.addAttribute("audioId", audioCache.store(audio));
@@ -41,9 +44,10 @@ public class PollyController {
         return "polly";
     }
 
+    /** Streams back the cached MP3 bytes for the given id so the page's <audio> tag can play/download it. */
     @GetMapping("/polly/audio/{id}")
     @ResponseBody
-    public ResponseEntity<byte[]> audio(@PathVariable String id) {
+    ResponseEntity<byte[]> audio(@PathVariable String id) {
         byte[] audio = audioCache.get(id);
         if (audio == null) {
             return ResponseEntity.notFound().build();

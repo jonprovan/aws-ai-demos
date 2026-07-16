@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+/** Handles the Rekognition demo page: shows the upload form and runs the image-analysis request. */
 @Controller
 public class RekognitionController {
 
@@ -18,13 +19,15 @@ public class RekognitionController {
         this.rekognitionService = rekognitionService;
     }
 
+    /** Renders the empty upload form. */
     @GetMapping("/rekognition")
-    public String form() {
+    String form() {
         return "rekognition";
     }
 
+    /** Validates a file was chosen, runs it through Rekognition, and puts the result (or error) back on the page. */
     @PostMapping("/rekognition")
-    public String analyze(@RequestParam("file") MultipartFile file, Model model) {
+    String analyze(@RequestParam("file") MultipartFile file, Model model) {
         if (file.isEmpty()) {
             model.addAttribute("error", "Please choose an image to upload");
             return "rekognition";

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+/** Handles the Transcribe demo page: shows the upload form and runs the audio/video-to-text request. */
 @Controller
 public class TranscribeController {
 
@@ -18,13 +19,15 @@ public class TranscribeController {
         this.transcribeService = transcribeService;
     }
 
+    /** Renders the empty upload form. */
     @GetMapping("/transcribe")
-    public String form() {
+    String form() {
         return "transcribe";
     }
 
+    /** Validates a file was chosen, runs the (slow, synchronous) transcription job, and shows the result or error. */
     @PostMapping("/transcribe")
-    public String transcribe(@RequestParam("file") MultipartFile file, Model model) {
+    String transcribe(@RequestParam("file") MultipartFile file, Model model) {
         if (file.isEmpty()) {
             model.addAttribute("error", "Please choose an audio or video file to upload");
             return "transcribe";

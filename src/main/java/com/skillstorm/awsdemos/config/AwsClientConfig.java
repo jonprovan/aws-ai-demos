@@ -11,58 +11,66 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.textract.TextractClient;
 import software.amazon.awssdk.services.transcribe.TranscribeClient;
 
+/** Wires up one AWS SDK client bean per service, all sharing the same region and default credential chain. */
 @Configuration
 public class AwsClientConfig {
 
     private final Region region;
     private final DefaultCredentialsProvider credentialsProvider = DefaultCredentialsProvider.create();
 
+    /** Reads the configured AWS region out of application.yml (via AwsDemoProperties). */
     public AwsClientConfig(AwsDemoProperties properties) {
         this.region = Region.of(properties.region());
     }
 
+    /** Client used to upload/download/delete scratch files in S3 for Textract and Transcribe. */
     @Bean
-    public S3Client s3Client() {
+    S3Client s3Client() {
         return S3Client.builder()
                 .region(region)
                 .credentialsProvider(credentialsProvider)
                 .build();
     }
 
+    /** Client used to extract text from uploaded images/PDFs. */
     @Bean
-    public TextractClient textractClient() {
+    TextractClient textractClient() {
         return TextractClient.builder()
                 .region(region)
                 .credentialsProvider(credentialsProvider)
                 .build();
     }
 
+    /** Client used to synthesize speech audio from text. */
     @Bean
-    public PollyClient pollyClient() {
+    PollyClient pollyClient() {
         return PollyClient.builder()
                 .region(region)
                 .credentialsProvider(credentialsProvider)
                 .build();
     }
 
+    /** Client used to run speech-to-text jobs on uploaded audio/video. */
     @Bean
-    public TranscribeClient transcribeClient() {
+    TranscribeClient transcribeClient() {
         return TranscribeClient.builder()
                 .region(region)
                 .credentialsProvider(credentialsProvider)
                 .build();
     }
 
+    /** Client used to detect labels and text in uploaded images. */
     @Bean
-    public RekognitionClient rekognitionClient() {
+    RekognitionClient rekognitionClient() {
         return RekognitionClient.builder()
                 .region(region)
                 .credentialsProvider(credentialsProvider)
                 .build();
     }
 
+    /** Client used to analyze language, sentiment, entities, and key phrases in text. */
     @Bean
-    public ComprehendClient comprehendClient() {
+    ComprehendClient comprehendClient() {
         return ComprehendClient.builder()
                 .region(region)
                 .credentialsProvider(credentialsProvider)

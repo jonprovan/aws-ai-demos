@@ -19,12 +19,14 @@ public class AudioCache {
         }
     };
 
+    /** Stores the audio bytes under a fresh random id and returns that id for later lookup. */
     public synchronized String store(byte[] audio) {
         String id = UUID.randomUUID().toString();
         entries.put(id, audio);
         return id;
     }
 
+    /** Returns the audio bytes previously stored under id, or null if missing/evicted. */
     public synchronized byte[] get(String id) {
         return entries.get(id);
     }

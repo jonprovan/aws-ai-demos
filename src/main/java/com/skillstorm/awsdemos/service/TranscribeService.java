@@ -21,6 +21,7 @@ import java.time.Instant;
 import java.util.Locale;
 import java.util.UUID;
 
+/** Runs an uploaded audio/video file through a real Transcribe job and returns the resulting transcript. */
 @Service
 public class TranscribeService {
 
@@ -36,6 +37,12 @@ public class TranscribeService {
         this.s3StorageService = s3StorageService;
     }
 
+    /**
+     * Uploads the file to S3 (Transcribe requires its input there), starts an async transcription
+     * job with language auto-detection, blocks polling until it finishes or times out, reads the
+     * transcript JSON Transcribe wrote back to the same bucket, and parses out the transcript text.
+     * Cleans up the input/output S3 objects and the Transcribe job itself in all cases.
+     */
     public TranscribeResult transcribe(MultipartFile file) {
         String jobName = "demo-" + UUID.randomUUID();
         String extension = extensionOf(file.getOriginalFilename());
@@ -79,6 +86,7 @@ public class TranscribeService {
         }
     }
 
+    /** Polls GetTranscriptionJob every POLL_INTERVAL until status is COMPLETED/FAILED, or throws past MAX_WAIT. */
     private TranscriptionJob pollUntilDone(String jobName) {
         Instant deadline = Instant.now().plus(MAX_WAIT);
         while (true) {
@@ -102,6 +110,7 @@ public class TranscribeService {
         }
     }
 
+    /** Downloads the completed job's transcript JSON from S3 and pulls out the plain-text transcript field. */
     private String readTranscriptText(String outputKey) {
         try {
             JsonNode root = objectMapper.readTree(s3StorageService.download(outputKey));
@@ -111,6 +120,7 @@ public class TranscribeService {
         }
     }
 
+    /** Pulls the lowercase file extension off a filename, or throws if there isn't one. */
     private String extensionOf(String filename) {
         if (filename == null || !filename.contains(".")) {
             throw new AwsDemoException("Uploaded file has no recognizable extension");
@@ -118,6 +128,7 @@ public class TranscribeService {
         return filename.substring(filename.lastIndexOf('.') + 1).toLowerCase(Locale.ROOT);
     }
 
+    /** Maps a file extension to the Transcribe MediaFormat enum, or throws if it's not one we support. */
     private MediaFormat mediaFormatFor(String extension) {
         return switch (extension) {
             case "mp3" -> MediaFormat.MP3;

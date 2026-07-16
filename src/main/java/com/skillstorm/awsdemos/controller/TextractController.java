@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+/** Handles the Textract demo page: shows the upload form and runs the extract-text request. */
 @Controller
 public class TextractController {
 
@@ -18,13 +19,15 @@ public class TextractController {
         this.textractService = textractService;
     }
 
+    /** Renders the empty upload form. */
     @GetMapping("/textract")
-    public String form() {
+    String form() {
         return "textract";
     }
 
+    /** Validates a file was chosen, runs it through Textract, and puts the result (or error) back on the page. */
     @PostMapping("/textract")
-    public String analyze(@RequestParam("file") MultipartFile file, Model model) {
+    String analyze(@RequestParam("file") MultipartFile file, Model model) {
         if (file.isEmpty()) {
             model.addAttribute("error", "Please choose a file to upload");
             return "textract";
