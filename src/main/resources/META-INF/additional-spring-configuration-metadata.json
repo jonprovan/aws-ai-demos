@@ -1,0 +1,15 @@
+{"properties": [{
+  "name": "aws.s3.bucket-name",
+  "type": "java.lang.String",
+  "description": "A description for 'aws.s3.bucket-name'"
+},
+{
+  "name": "aws.region",
+  "type": "java.lang.String",
+  "description": "A description for 'aws.region'"
+},
+{
+  "name": "logging.level.com.skillstorm.awsdemos",
+  "type": "java.lang.String",
+  "description": "A description for 'logging.level.com.skillstorm.awsdemos'"
+}]}
