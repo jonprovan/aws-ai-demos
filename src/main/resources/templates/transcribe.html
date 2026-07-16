@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transcribe Demo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main>
+    <h1>Transcribe &mdash; Audio/Video to Text</h1>
+    <p>Supported formats: mp3, mp4, wav, flac, ogg, amr, webm. This runs a real Transcribe job and can take a
+        minute or two &mdash; the page will wait for the job to finish before showing the transcript.</p>
+    <div class="card">
+        <form method="post" action="/transcribe" enctype="multipart/form-data">
+            <label for="file">Audio or video file</label>
+            <input type="file" id="file" name="file" accept="audio/*,video/*" required>
+            <button type="submit">Transcribe</button>
+        </form>
+    </div>
+
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <div class="card" th:if="${result}">
+        <h3>Transcript</h3>
+        <div class="result-block" th:text="${result.transcriptText}"></div>
+    </div>
+</main>
+</body>
+</html>

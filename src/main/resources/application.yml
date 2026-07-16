@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: aws-ai-demos
+  thymeleaf:
+    cache: false
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+aws:
+  region: us-east-1
+  s3:
+    bucket-name: jon-aws-ai-demos
+
+logging:
+  level:
+    com.skillstorm.awsdemos: DEBUG

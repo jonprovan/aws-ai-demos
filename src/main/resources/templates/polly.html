@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Polly Demo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main>
+    <h1>Polly &mdash; Text to Speech</h1>
+    <div class="card">
+        <form method="post" action="/polly">
+            <label for="text">Text to synthesize</label>
+            <textarea id="text" name="text" placeholder="Type something for Polly to say..." required></textarea>
+            <button type="submit">Synthesize Speech</button>
+        </form>
+    </div>
+
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <div class="card" th:if="${audioId}">
+        <h3>Result</h3>
+        <audio controls th:src="@{'/polly/audio/' + ${audioId}}"></audio>
+    </div>
+</main>
+</body>
+</html>

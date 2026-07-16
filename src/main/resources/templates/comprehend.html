@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Comprehend Demo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main>
+    <h1>Comprehend &mdash; Text Analysis</h1>
+    <p>Paste text below, or upload a .txt file (max 5,000 bytes &mdash; Comprehend's synchronous API limit).</p>
+    <div class="card">
+        <form method="post" action="/comprehend" enctype="multipart/form-data">
+            <label for="text">Text</label>
+            <textarea id="text" name="text" placeholder="Paste text to analyze..."></textarea>
+            <label for="file">...or a .txt file</label>
+            <input type="file" id="file" name="file" accept=".txt">
+            <button type="submit">Analyze Text</button>
+        </form>
+    </div>
+
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <div class="card" th:if="${result}">
+        <h3>Language</h3>
+        <p th:text="${result.languageCode}"></p>
+
+        <h3>Sentiment: <span th:text="${result.sentiment}"></span></h3>
+        <table>
+            <tbody>
+            <tr th:each="entry : ${result.sentimentScores}">
+                <td th:text="${entry.key}"></td>
+                <td th:text="${#numbers.formatDecimal(entry.value * 100, 1, 1)} + '%'"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h3>Entities</h3>
+        <table>
+            <thead>
+            <tr><th>Text</th><th>Type</th><th>Score</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="entity : ${result.entities}">
+                <td th:text="${entity.text}"></td>
+                <td th:text="${entity.type}"></td>
+                <td th:text="${#numbers.formatDecimal(entity.score * 100, 1, 1)} + '%'"></td>
+            </tr>
+            </tbody>
+        </table>
+        <p th:if="${result.entities.isEmpty()}">No entities detected.</p>
+
+        <h3>Key Phrases</h3>
+        <div th:if="${!result.keyPhrases.isEmpty()}">
+            <span class="tag" th:each="phrase : ${result.keyPhrases}" th:text="${phrase}"></span>
+        </div>
+        <p th:if="${result.keyPhrases.isEmpty()}">No key phrases detected.</p>
+    </div>
+</main>
+</body>
+</html>

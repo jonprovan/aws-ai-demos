@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Textract Demo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main>
+    <h1>Textract &mdash; Extract Text from a Document</h1>
+    <div class="card">
+        <form method="post" action="/textract" enctype="multipart/form-data">
+            <label for="file">Image or PDF</label>
+            <input type="file" id="file" name="file" accept=".png,.jpg,.jpeg,.pdf" required>
+            <button type="submit">Extract Text</button>
+        </form>
+    </div>
+
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <div class="card" th:if="${result}">
+        <h3>Extracted Text</h3>
+        <div class="result-block" th:text="${result.fullText}"></div>
+        <p th:if="${result.lines.isEmpty()}">No text was detected in this document.</p>
+    </div>
+</main>
+</body>
+</html>

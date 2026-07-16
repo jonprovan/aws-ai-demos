@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rekognition Demo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main>
+    <h1>Rekognition &mdash; Image Analysis</h1>
+    <div class="card">
+        <form method="post" action="/rekognition" enctype="multipart/form-data">
+            <label for="file">Image</label>
+            <input type="file" id="file" name="file" accept=".png,.jpg,.jpeg" required>
+            <button type="submit">Analyze Image</button>
+        </form>
+    </div>
+
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <div class="card" th:if="${result}">
+        <h3>Labels</h3>
+        <table>
+            <thead>
+            <tr><th>Label</th><th>Confidence</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="label : ${result.labels}">
+                <td th:text="${label.name}"></td>
+                <td th:text="${#numbers.formatDecimal(label.confidence, 1, 1)} + '%'"></td>
+            </tr>
+            </tbody>
+        </table>
+        <p th:if="${result.labels.isEmpty()}">No labels detected.</p>
+
+        <h3>Detected Text</h3>
+        <div th:if="${!result.detectedText.isEmpty()}">
+            <span class="tag" th:each="line : ${result.detectedText}" th:text="${line}"></span>
+        </div>
+        <p th:if="${result.detectedText.isEmpty()}">No text detected in this image.</p>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AWS AI Demos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main>
+    <h1>AWS AI Services Demo</h1>
+    <p>Upload a file to each service below and see the AWS API response.</p>
+    <div class="card-grid">
+        <a class="card" href="/textract">
+            <h3>Textract</h3>
+            <p>Extract text from an image or PDF document.</p>
+        </a>
+        <a class="card" href="/polly">
+            <h3>Polly</h3>
+            <p>Convert text (typed or a .txt file) into spoken audio.</p>
+        </a>
+        <a class="card" href="/transcribe">
+            <h3>Transcribe</h3>
+            <p>Convert an audio or video file into a text transcript.</p>
+        </a>
+        <a class="card" href="/rekognition">
+            <h3>Rekognition</h3>
+            <p>Detect labels and text within an uploaded image.</p>
+        </a>
+        <a class="card" href="/comprehend">
+            <h3>Comprehend</h3>
+            <p>Analyze text for language, sentiment, entities, and key phrases.</p>
+        </a>
+    </div>
+</main>
+</body>
+</html>
