@@ -1,15 +1,37 @@
-{"properties": [{
-  "name": "aws.s3.bucket-name",
-  "type": "java.lang.String",
-  "description": "A description for 'aws.s3.bucket-name'"
-},
-{
-  "name": "aws.region",
-  "type": "java.lang.String",
-  "description": "A description for 'aws.region'"
-},
-{
-  "name": "logging.level.com.skillstorm.awsdemos",
-  "type": "java.lang.String",
-  "description": "A description for 'logging.level.com.skillstorm.awsdemos'"
-}]}
+{"properties": [
+  {
+    "name": "aws.s3.bucket-name",
+    "type": "java.lang.String",
+    "description": "A description for 'aws.s3.bucket-name'"
+  },
+  {
+    "name": "aws.region",
+    "type": "java.lang.String",
+    "description": "A description for 'aws.region'"
+  },
+  {
+    "name": "logging.level.com.skillstorm.awsdemos",
+    "type": "java.lang.String",
+    "description": "A description for 'logging.level.com.skillstorm.awsdemos'"
+  },
+  {
+    "name": "bedrock.agent.alias-id",
+    "type": "java.lang.String",
+    "description": "A description for 'bedrock.agent.alias-id'"
+  },
+  {
+    "name": "bedrock.agent.id",
+    "type": "java.lang.String",
+    "description": "A description for 'bedrock.agent.id'"
+  },
+  {
+    "name": "bedrock.api-key",
+    "type": "java.lang.String",
+    "description": "A description for 'bedrock.api-key'"
+  },
+  {
+    "name": "bedrock.base-url",
+    "type": "java.lang.String",
+    "description": "A description for 'bedrock.base-url'"
+  }
+]}
