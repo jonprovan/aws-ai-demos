@@ -98,6 +98,21 @@ button:hover {
     background: #e88a00;
 }
 
+.button-link {
+    display: inline-block;
+    background: #ff9900;
+    color: #1a1a1a;
+    font-weight: 600;
+    padding: 0.6rem 1.4rem;
+    border-radius: 4px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.button-link:hover {
+    background: #e88a00;
+}
+
 .error {
     background: #fdecea;
     border: 1px solid #f5c2c0;
@@ -135,4 +150,72 @@ th, td {
     padding: 0.2rem 0.7rem;
     margin: 0.15rem;
     font-size: 0.9rem;
+}
+
+.chat-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.chat-toolbar label {
+    font-weight: 600;
+}
+
+.chat-toolbar select {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 200px;
+    max-height: 55vh;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    padding: 0.25rem;
+}
+
+.chat-bubble {
+    max-width: 80%;
+    padding: 0.6rem 0.9rem;
+    border-radius: 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.chat-bubble.user {
+    align-self: flex-end;
+    background: #ff9900;
+    color: #1a1a1a;
+}
+
+.chat-bubble.assistant {
+    align-self: flex-start;
+    background: #eef2f7;
+    color: #1a1a1a;
+}
+
+.chat-bubble.pending {
+    font-style: italic;
+    color: #666;
+}
+
+.chat-input-row {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.chat-input-row input[type="text"] {
+    flex: 1;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
 }

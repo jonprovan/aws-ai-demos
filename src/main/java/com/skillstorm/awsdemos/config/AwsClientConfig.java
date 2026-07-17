@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.bedrockagentruntime.BedrockAgentRuntimeAsyncClient;
 import software.amazon.awssdk.services.comprehend.ComprehendClient;
 import software.amazon.awssdk.services.polly.PollyClient;
 import software.amazon.awssdk.services.rekognition.RekognitionClient;
@@ -72,6 +73,15 @@ public class AwsClientConfig {
     @Bean
     ComprehendClient comprehendClient() {
         return ComprehendClient.builder()
+                .region(region)
+                .credentialsProvider(credentialsProvider)
+                .build();
+    }
+
+    /** Async client used to invoke the custom Bedrock Agent (InvokeAgent is an event-stream API, async-only). */
+    @Bean
+    BedrockAgentRuntimeAsyncClient bedrockAgentRuntimeAsyncClient() {
+        return BedrockAgentRuntimeAsyncClient.builder()
                 .region(region)
                 .credentialsProvider(credentialsProvider)
                 .build();

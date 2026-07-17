@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bedrock Chat Demo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main>
+    <h1>Bedrock &mdash; Chat</h1>
+    <div class="card">
+        <div class="chat-toolbar">
+            <label for="model">Model</label>
+            <select id="model"></select>
+            <a class="button-link" href="/bedrock/agent">Talk to My Custom Agent &rarr;</a>
+        </div>
+
+        <div id="messages" class="chat-messages"></div>
+
+        <div class="chat-input-row">
+            <input type="text" id="prompt" placeholder="Type a message and press Enter..." autocomplete="off">
+        </div>
+    </div>
+</main>
+<script th:src="@{/js/bedrock-chat.js}"></script>
+</body>
+</html>

@@ -16,6 +16,13 @@ aws:
   s3:
     bucket-name: jon-aws-ai-demos
 
+bedrock:
+  base-url: ${BEDROCK_BASE_URL:}
+  api-key: ${BEDROCK_API_KEY:}
+  agent:
+    id: ${BEDROCK_AGENT_ID:}
+    alias-id: ${BEDROCK_AGENT_ALIAS_ID:}
+
 logging:
   level:
     com.skillstorm.awsdemos: DEBUG
